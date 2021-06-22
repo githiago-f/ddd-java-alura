@@ -26,7 +26,7 @@ public class Student {
      * nomes podem ser repetidos e por isso
      * não são boas identidades
      */
-    private final String nome;
+    private final String name;
 
     /**
      * o email também poderia ser uma
@@ -35,21 +35,25 @@ public class Student {
      */
     private final Email email;
 
-    private final String senha;
+    private final String password;
 
     private final List<Telefone> telefones;
 
-    public Student(CPF cpf, String nome, Email email, String senha) {
+    public Student(CPF cpf, String name, Email email, String password) {
         this.cpf = cpf;
-        this.nome = nome;
+        this.name = name;
         this.email = email;
         this.telefones = new ArrayList<>();
-        this.senha = senha;
+        this.password = password;
     }
     public String getCpf() { return cpf.getValue(); }
     public String getEmail() { return email.getEmail(); }
-    public String getNome() { return nome; }
+    public String getName() { return name; }
     public void addTelefone(Telefone telefone) {
         telefones.add(telefone);
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

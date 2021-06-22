@@ -1,6 +1,6 @@
 package org.example.school.application.usecases.recommendation;
 
-import org.example.school.application.service.SendRecommendationEmail;
+import org.example.school.application.services.SendRecommendationEmail;
 import org.example.school.domain.recommendation.Recommendation;
 import org.example.school.domain.recommendation.RecommendationRepository;
 import org.example.school.domain.student.StudentRepository;

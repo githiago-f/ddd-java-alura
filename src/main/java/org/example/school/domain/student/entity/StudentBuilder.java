@@ -7,7 +7,7 @@ public class StudentBuilder {
     private String name;
     private CPF cpf;
     private Email email;
-    private String senha;
+    private String password;
 
     public StudentBuilder withName(String name) {
         this.name = name;
@@ -24,12 +24,12 @@ public class StudentBuilder {
         return this;
     }
 
-    public StudentBuilder withSenha(String senha) {
-        this.senha = senha;
+    public StudentBuilder withPassword(String senha) {
+        this.password = senha;
         return this;
     }
 
     public Student build() {
-        return new Student(cpf, name, email, senha);
+        return new Student(cpf, name, email, password);
     }
 }

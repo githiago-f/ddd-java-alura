@@ -1,4 +1,4 @@
-package org.example.school.infraestrutura.DAO.Memory;
+package org.example.school.infraestrutura.DAL.Memory;
 
 import org.example.school.domain.student.entity.Student;
 import org.example.school.domain.student.entity.StudentBuilder;
@@ -25,13 +25,13 @@ class StudentRepositoryMemoryTest {
                 .withCpf("000.999.999-99")
                 .withEmail("email1@email.com")
                 .withName("Thiago Farias")
-                .withSenha("123456")
+                .withPassword("123456")
                 .build();
         Student student1 = new StudentBuilder()
                 .withCpf("000.999.999-91")
                 .withEmail("email@email.com")
                 .withName("Thiago Dutra")
-                .withSenha("123456")
+                .withPassword("123456")
                 .build();
         studentRepository.matricula(student1);
     }

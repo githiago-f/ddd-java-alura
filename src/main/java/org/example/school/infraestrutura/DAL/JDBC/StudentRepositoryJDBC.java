@@ -1,4 +1,4 @@
-package org.example.school.infraestrutura.DAO.JDBC;
+package org.example.school.infraestrutura.DAL.JDBC;
 
 import org.example.school.domain.student.entity.Student;
 import org.example.school.domain.student.entity.StudentBuilder;
@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class RepositorioDeAlunosJDBC implements StudentRepository {
+public class StudentRepositoryJDBC implements StudentRepository {
     private final Connection connection;
 
     /**
@@ -21,27 +21,28 @@ public class RepositorioDeAlunosJDBC implements StudentRepository {
      * via parametros do contrutor.
      * @param connection
      */
-    public RepositorioDeAlunosJDBC(Connection connection) {
+    public StudentRepositoryJDBC(Connection connection) {
         this.connection = connection;
     }
 
     // factory method
     private Student resultSetToAluno(ResultSet resultSet) throws SQLException {
         return new StudentBuilder()
-            .withCpf(resultSet.getString("Cpf"))
-            .withEmail(resultSet.getString("Email"))
-            .withName(resultSet.getString("Nome"))
+            .withCpf(resultSet.getString("cpf"))
+            .withEmail(resultSet.getString("email"))
+            .withName(resultSet.getString("name"))
             .build();
     }
 
     @Override
-    public void matricula(Student aluno) {
+    public void matricula(Student student) {
         try {
-            String sql = "INSERT INTO alunos (Nome, Cpf, Email) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO students (name, cpf, email, password) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, aluno.getNome());
-            statement.setString(2, aluno.getCpf());
-            statement.setString(3, aluno.getEmail());
+            statement.setString(1, student.getName());
+            statement.setString(2, student.getCpf());
+            statement.setString(3, student.getEmail());
+            statement.setString(4, student.getPassword());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -50,20 +51,21 @@ public class RepositorioDeAlunosJDBC implements StudentRepository {
 
     @Override
     public Student buscaPorCpf(String cpf) {
-        String sql = "SELECT * FROM alunos WHERE Cpf = ?";
+        String sql = "SELECT * FROM students WHERE cpf = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, cpf);
             ResultSet resultSet = statement.executeQuery();
             return resultSetToAluno(resultSet);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new StudentNotFound(cpf);
         }
     }
 
     @Override
     public List<Student> buscaTodos() {
-        String sql = "SELECT * FROM alunos";
+        String sql = "SELECT * FROM students";
 
         try {
             ResultSet resultSet = connection.prepareStatement(sql)
@@ -71,7 +73,6 @@ public class RepositorioDeAlunosJDBC implements StudentRepository {
         } catch (SQLException e) {
             throw new StudentNotFound();
         }
-
         return null;
     }
 }

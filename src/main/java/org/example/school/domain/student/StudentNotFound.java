@@ -7,5 +7,7 @@ public class StudentNotFound extends RuntimeException {
         super("Aluno não encontrado com CPF: " + cpf);
     }
 
-    public StudentNotFound() {super("Nenhum aluno encontrado");}
+    public StudentNotFound() {
+        super("Nenhum aluno encontrado");
+    }
 }

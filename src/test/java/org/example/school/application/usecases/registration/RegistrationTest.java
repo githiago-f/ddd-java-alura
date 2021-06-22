@@ -2,7 +2,7 @@ package org.example.school.application.usecases.registration;
 
 import org.example.school.application.usecases.registration.dto.StudentDto;
 import org.example.school.domain.student.entity.Student;
-import org.example.school.infraestrutura.DAO.Memory.StudentRepositoryMemory;
+import org.example.school.infraestrutura.DAL.Memory.StudentRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package org.example.school.infraestrutura.DAO.Memory;
+package org.example.school.infraestrutura.DAL.Memory;
 
 import org.example.school.domain.student.entity.Student;
 import org.example.school.domain.student.StudentNotFound;
