@@ -2,10 +2,6 @@ package org.example.school.domain.student.entity;
 
 import org.example.school.domain.student.valueObject.CPF;
 import org.example.school.domain.student.valueObject.Email;
-import org.example.school.domain.student.valueObject.Telefone;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Este conceito possui uma identificação (CPF)
@@ -37,23 +33,27 @@ public class Student {
 
     private final String password;
 
-    private final List<Telefone> telefones;
-
     public Student(CPF cpf, String name, Email email, String password) {
         this.cpf = cpf;
         this.name = name;
         this.email = email;
-        this.telefones = new ArrayList<>();
         this.password = password;
     }
+
     public String getCpf() { return cpf.getValue(); }
     public String getEmail() { return email.getEmail(); }
     public String getName() { return name; }
-    public void addTelefone(Telefone telefone) {
-        telefones.add(telefone);
-    }
-
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{\n" +
+                " cpf=" + cpf.getValue() +
+                ",\n name='" + name + '\'' +
+                ",\n email=" + email.getEmail() +
+                ",\n password='" + password + '\'' +
+                '}';
     }
 }

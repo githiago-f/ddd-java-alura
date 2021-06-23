@@ -16,8 +16,8 @@ public class RecommendateStudent {
     }
 
     public void execute(String indicatorCpf, String indicatedCpf) {
-        Student indicator = studentRepository.buscaPorCpf(indicatorCpf);
-        Student indicated = studentRepository.buscaPorCpf(indicatedCpf);
+        Student indicator = studentRepository.findByCpf(indicatorCpf);
+        Student indicated = studentRepository.findByCpf(indicatedCpf);
 
         Recommendation recommendation = new Recommendation(indicator, indicated);
 

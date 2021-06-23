@@ -1,7 +1,7 @@
 package org.example.school.domain.recommendation;
 
 import org.example.school.domain.student.entity.Student;
-import org.example.school.domain.student.entity.StudentBuilder;
+import org.example.school.domain.student.entity.builders.StudentBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

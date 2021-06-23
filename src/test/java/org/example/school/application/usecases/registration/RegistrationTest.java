@@ -2,7 +2,8 @@ package org.example.school.application.usecases.registration;
 
 import org.example.school.application.usecases.registration.dto.StudentDto;
 import org.example.school.domain.student.entity.Student;
-import org.example.school.infraestrutura.DAL.Memory.StudentRepositoryMemory;
+import org.example.school.infrastructure.Cipher.PasswordCipherMD5;
+import org.example.school.infrastructure.DAL.Memory.StudentRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ class RegistrationTest {
     @BeforeEach
     void setUp() {
         studentRepositoryMemory = new StudentRepositoryMemory();
-        registration = new Registration(studentRepositoryMemory);
+        registration = new Registration(studentRepositoryMemory, new PasswordCipherMD5());
     }
 
     @Test
@@ -26,12 +27,13 @@ class RegistrationTest {
         StudentDto studentDto = new StudentDto(
                 "Thiago Dutra",
                 "thiago.dutra@shareprime.com.br",
-                "046.773.300-77"
+                "000.000.000-00",
+                "Senha123"
         );
         registration.execute(studentDto);
 
-        assertDoesNotThrow(() -> studentRepositoryMemory.buscaPorCpf("046.773.300-77"));
-        Student student = studentRepositoryMemory.buscaPorCpf("046.773.300-77");
-        assertEquals("046.773.300-77", student.getCpf());
+        assertDoesNotThrow(() -> studentRepositoryMemory.findByCpf("000.000.000-00"));
+        Student student = studentRepositoryMemory.findByCpf("000.000.000-00");
+        assertEquals("000.000.000-00", student.getCpf());
     }
 }

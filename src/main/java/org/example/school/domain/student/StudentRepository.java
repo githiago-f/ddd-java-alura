@@ -5,9 +5,11 @@ import org.example.school.domain.student.entity.Student;
 import java.util.List;
 
 public interface StudentRepository {
-    void matricula(Student aluno);
+    void register(Student student);
 
-    Student buscaPorCpf(String cpf);
+    Student findByCpf(String cpf);
 
-    List<Student> buscaTodos();
+    Student findByEmail(String email);
+
+    List<Student> findAll();
 }

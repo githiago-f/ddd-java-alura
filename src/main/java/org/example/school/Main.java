@@ -1,10 +1,9 @@
 package org.example.school;
 
-import org.example.school.domain.student.StudentRepository;
-import org.example.school.domain.student.entity.Student;
-import org.example.school.domain.student.entity.StudentBuilder;
-import org.example.school.infraestrutura.DAL.JDBC.StudentRepositoryJDBC;
-import org.example.school.infraestrutura.utils.CreateTables;
+import org.example.school.application.controller.StudentController;
+import org.example.school.application.controller.dto.LoginDTO;
+import org.example.school.application.usecases.registration.dto.StudentDto;
+import org.example.school.infrastructure.utils.CreateTables;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,22 +12,27 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite::memory:");
-        StudentRepository studentRepository = new StudentRepositoryJDBC(connection);
-
         CreateTables createTables = new CreateTables(connection);
-        createTables.createStudents();
+        createTables.createStudentsTable();
 
-        Student student = new StudentBuilder()
-                    .withName("Thiago Farias")
-                    .withEmail("thiago.farias@gmail.com")
-                    .withCpf("000.000.000-00")
-                    .withPassword("Senha123")
-                    .build();
+        StudentController studentController = new StudentController(connection);
 
-        studentRepository.matricula(student);
+        StudentDto studentDto = new StudentDto(
+                "Thiago Farias",
+                "thiago.farias@gmail.com",
+                "000.000.000-00",
+                "Senha123"
+        );
 
-        Student fromSqlite = studentRepository.buscaPorCpf("000.000.000-00");
+        studentController.register(studentDto);
 
-        System.out.println(fromSqlite.getName());
+        LoginDTO loginDTO = new LoginDTO(
+                "thiago.farias@gmail.com",
+                "Senha123"
+        );
+
+        System.out.println(
+                studentController.login(loginDTO)
+        );
     }
 }

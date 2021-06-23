@@ -1,4 +1,4 @@
-package org.example.school.infraestrutura.Cipher;
+package org.example.school.infrastructure.Cipher;
 
 import org.example.school.domain.student.services.PasswordCipherStrategy;
 

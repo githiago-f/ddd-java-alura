@@ -1,7 +1,7 @@
-package org.example.school.infraestrutura.DAL.Memory;
+package org.example.school.infrastructure.DAL.Memory;
 
 import org.example.school.domain.student.entity.Student;
-import org.example.school.domain.student.entity.StudentBuilder;
+import org.example.school.domain.student.entity.builders.StudentBuilder;
 import org.example.school.domain.student.StudentNotFound;
 import org.example.school.domain.student.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,24 +33,24 @@ class StudentRepositoryMemoryTest {
                 .withName("Thiago Dutra")
                 .withPassword("123456")
                 .build();
-        studentRepository.matricula(student1);
+        studentRepository.register(student1);
     }
 
     @Test
     @DisplayName("Matricula aluno")
     void registration() {
         String cpf = "000.999.999-99";
-        studentRepository.matricula(student);
-        assertDoesNotThrow(() -> studentRepository.buscaTodos());
-        assertEquals(cpf, studentRepository.buscaTodos().get(1).getCpf());
+        studentRepository.register(student);
+        assertDoesNotThrow(() -> studentRepository.findAll());
+        assertEquals(cpf, studentRepository.findAll().get(1).getCpf());
     }
 
     @Test
     @DisplayName("Busca por cpf existente")
     void searchByCPF() {
         String cpf = "000.999.999-91";
-        assertDoesNotThrow(() -> studentRepository.buscaPorCpf(cpf));
-        Student localStudent = studentRepository.buscaPorCpf(cpf);
+        assertDoesNotThrow(() -> studentRepository.findByCpf(cpf));
+        Student localStudent = studentRepository.findByCpf(cpf);
         assertEquals(cpf, localStudent.getCpf());
     }
 
@@ -58,13 +58,13 @@ class StudentRepositoryMemoryTest {
     @DisplayName("Busca por cpf inexistente")
     void searchByCPFNonexistent() {
         String cpf = "000.999.999-99";
-        assertThrows(StudentNotFound.class, () -> studentRepository.buscaPorCpf(cpf));
+        assertThrows(StudentNotFound.class, () -> studentRepository.findByCpf(cpf));
     }
 
     @Test
     @DisplayName("Busca todos alunos")
     void searchAll() {
-        List<Student> students = studentRepository.buscaTodos();
+        List<Student> students = studentRepository.findAll();
         assertEquals(1, students.size());
         assertEquals("email@email.com", students.get(0).getEmail());
     }

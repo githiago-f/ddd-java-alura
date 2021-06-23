@@ -1,4 +1,4 @@
-package org.example.school.infraestrutura.utils;
+package org.example.school.infrastructure.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public class CreateTables {
         this.connection = connection;
     }
 
-    public void createStudents() throws SQLException {
+    public void createStudentsTable() throws SQLException {
         connection.prepareStatement("DROP TABLE IF EXISTS students").execute();
         String sql =
             "CREATE TABLE IF NOT EXISTS students (" +

@@ -1,5 +1,6 @@
-package org.example.school.domain.student.entity;
+package org.example.school.domain.student.entity.builders;
 
+import org.example.school.domain.student.entity.Student;
 import org.example.school.domain.student.valueObject.CPF;
 import org.example.school.domain.student.valueObject.Email;
 

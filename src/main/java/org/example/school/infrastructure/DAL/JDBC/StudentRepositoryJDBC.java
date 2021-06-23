@@ -1,7 +1,7 @@
-package org.example.school.infraestrutura.DAL.JDBC;
+package org.example.school.infrastructure.DAL.JDBC;
 
 import org.example.school.domain.student.entity.Student;
-import org.example.school.domain.student.entity.StudentBuilder;
+import org.example.school.domain.student.entity.builders.StudentBuilder;
 import org.example.school.domain.student.StudentNotFound;
 import org.example.school.domain.student.StudentRepository;
 
@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepositoryJDBC implements StudentRepository {
@@ -31,11 +32,12 @@ public class StudentRepositoryJDBC implements StudentRepository {
             .withCpf(resultSet.getString("cpf"))
             .withEmail(resultSet.getString("email"))
             .withName(resultSet.getString("name"))
+            .withPassword(resultSet.getString("password"))
             .build();
     }
 
     @Override
-    public void matricula(Student student) {
+    public void register(Student student) {
         try {
             String sql = "INSERT INTO students (name, cpf, email, password) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -50,7 +52,7 @@ public class StudentRepositoryJDBC implements StudentRepository {
     }
 
     @Override
-    public Student buscaPorCpf(String cpf) {
+    public Student findByCpf(String cpf) {
         String sql = "SELECT * FROM students WHERE cpf = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -64,15 +66,36 @@ public class StudentRepositoryJDBC implements StudentRepository {
     }
 
     @Override
-    public List<Student> buscaTodos() {
+    public Student findByEmail(String email) {
+        String sql = "SELECT * FROM students WHERE email = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSetToAluno(resultSet);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new StudentNotFound(email);
+        }
+    }
+
+    @Override
+    public List<Student> findAll() {
         String sql = "SELECT * FROM students";
 
+        List<Student> students = new ArrayList<>();
+
         try {
-            ResultSet resultSet = connection.prepareStatement(sql)
-                    .executeQuery();
+            ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+            if(!resultSet.isClosed()) {
+                while(resultSet.next()) {
+                    students.add(resultSetToAluno(resultSet));
+                }
+            }
+            return students;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new StudentNotFound();
         }
-        return null;
     }
 }
